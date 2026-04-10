@@ -11,7 +11,7 @@ install_libs(){
 }
 
 setup_licenseserver(){
-    bash -c "echo '198.22.255.6 oct-license' >> /etc/hosts"
+    bash -c "echo '198.22.255.6 octlm' >> /etc/hosts"
 }
 
 install_u280_dev_platform(){
