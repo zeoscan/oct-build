@@ -143,6 +143,7 @@ XRT_VERSION=`grep ^$COMB: $SCRIPT_PATH/spec.txt | awk -F':' '{print $2}' | awk -
 FACTORY_SHELL="xilinx_u280_GOLDEN_8"
 NODE_ID=$(hostname | cut -d'.' -f1)
 
+mount_filesystems
 check_xrt
 if [ $? == 0 ]; then
     echo "XRT is already installed."
@@ -159,7 +160,6 @@ else
     fi
 fi
 
-mount_filesystems
 install_libs
 setup_licenseserver
 check_shellpkg
