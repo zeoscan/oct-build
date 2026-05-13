@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+mount_filesystems() {
+    sudo mkdir -p /fpga/Intel /fpga/Xilinx /fpga/tools
+    sudo mount -t nfs ops.cloudlab.umass.edu:/fpga/Intel /fpga/Intel
+    sudo mount -t nfs ops.cloudlab.umass.edu:/fpga/Xilinx /fpga/Xilinx
+    sudo mount -t nfs ops.cloudlab.umass.edu:/fpga/tools /fpga/tools
+}
+
 install_libs(){
     #sudo apt install -y ocl-icd
     #sudo apt install -y ocl-icd-devel
@@ -110,12 +117,13 @@ install_libs() {
     sudo $VITIS_BASE_PATH/$TOOLVERSION/scripts/installLibs.sh
 }
 
-XRT_BASE_PATH="/share/tools/u280/deployment/xrt"
-SHELL_BASE_PATH="/share/tools/u280/deployment/shell"
-XBFLASH_BASE_PATH="/share/tools/u280/xbflash"
-VITIS_BASE_PATH="/share/Xilinx/Vitis"
-U280_DEV_PLATFORM_PATH="/share/tools/u280/dev_platform"
-VCK5000_DEV_PLATFORM_PATH="/share/tools/vck5000/dev_platform"
+BASE_DIR="/fpga"
+XRT_BASE_PATH="$BASE_DIR/tools/u280/deployment/xrt"
+SHELL_BASE_PATH="$BASE_DIr/tools/u280/deployment/shell"
+XBFLASH_BASE_PATH="$BASE_DIR/tools/u280/xbflash"
+VITIS_BASE_PATH="$BASE_DIR/Xilinx/Vitis"
+U280_DEV_PLATFORM_PATH="$BASE_DIR/tools/u280/dev_platform"
+VCK5000_DEV_PLATFORM_PATH="$BASE_DIR/tools/vck5000/dev_platform"
 
 OSVERSION=`grep '^ID=' /etc/os-release | awk -F= '{print $2}'`
 OSVERSION=`echo $OSVERSION | tr -d '"'`
@@ -151,6 +159,7 @@ else
     fi
 fi
 
+mount_filesystems
 install_libs
 setup_licenseserver
 check_shellpkg
