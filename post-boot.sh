@@ -119,7 +119,7 @@ install_libs() {
 
 BASE_DIR="/fpga"
 XRT_BASE_PATH="$BASE_DIR/tools/u280/deployment/xrt"
-SHELL_BASE_PATH="$BASE_DIr/tools/u280/deployment/shell"
+SHELL_BASE_PATH="$BASE_DIR/tools/u280/deployment/shell"
 XBFLASH_BASE_PATH="$BASE_DIR/tools/u280/xbflash"
 VITIS_BASE_PATH="$BASE_DIR/Xilinx/Vitis"
 U280_DEV_PLATFORM_PATH="$BASE_DIR/tools/u280/dev_platform"
