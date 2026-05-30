@@ -2,9 +2,9 @@
 
 mount_filesystems() {
     sudo mkdir -p /fpga/Intel /fpga/Xilinx /fpga/tools
-    sudo mount -t nfs -o nolock,ro ops.cloudlab.umass.edu:/fpga/Intel /fpga/Intel
-    sudo mount -t nfs -o nolock,ro ops.cloudlab.umass.edu:/fpga/Xilinx /fpga/Xilinx
-    sudo mount -t nfs -o nolock,ro ops.cloudlab.umass.edu:/fpga/tools /fpga/tools
+    sudo mount -t nfs -o nolock ops.cloudlab.umass.edu:/fpga/Intel /fpga/Intel
+    sudo mount -t nfs -o nolock ops.cloudlab.umass.edu:/fpga/Xilinx /fpga/Xilinx
+    sudo mount -t nfs -o nolock ops.cloudlab.umass.edu:/fpga/tools /fpga/tools
 }
 
 install_libs(){
