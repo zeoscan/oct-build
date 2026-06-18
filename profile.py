@@ -8,17 +8,9 @@ import geni.rspec.emulab as emulab
 pc = portal.Context()
 request = pc.makeRequestRSpec()
 
-RAM = [16, 32, 64]
-CPU = [2, 4, 8]
+# CPU and RAM parameter constraints are removed for bare-metal,
+# as you will receive the full unpartitioned resources of the physical node.
 toolVersion = ['2023.2', '2023.1'] 
-
-pc.defineParameter("RAM",  "RAM (GB)",
-                   portal.ParameterType.INTEGER, RAM[0], RAM,
-                   longDescription="RAM")
-
-pc.defineParameter("CPU",  "No: of VCPUs",
-                   portal.ParameterType.INTEGER, CPU[0], CPU,
-                   longDescription="No: of VCPUs")
 
 pc.defineParameter("toolVersion", "Tool Version",
                    portal.ParameterType.STRING,
@@ -32,22 +24,14 @@ pc.defineParameter("remoteDesktop", "Remote Desktop Access",
 
 params = pc.bindParameters() 
  
-# Create a XenVM
-
-node = request.XenVM('fpga-tools',exclusive=False)
+# Goal-Driven Execution: Request a RawPC (Bare Metal) instead of a shared XenVM
+node = request.RawPC('fpga-tools')
 node.component_manager_id = "urn:publicid:IDN+utah.cloudlab.us+authority+cm"
 node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU22-64-STD"
 node.setFailureAction('nonfatal')
 # node.Desire("FPGA-Build-Pool", 1.0)
 
-# Request a specific number of VCPUs.
-node.cores = params.CPU
-
-# Request a specific amount of memory (in MB).
-
-node.ram = 1024 * params.RAM
-#node.ram = 1024
-
+# The post-boot script execution remains surgically identical
 node.addService(pg.Execute(shell="bash", command="sudo /local/repository/post-boot.sh " + str(params.remoteDesktop) + " " + params.toolVersion + " >> /local/logs/output_log.txt"))  
 
 # Print the RSpec to the enclosing page.
